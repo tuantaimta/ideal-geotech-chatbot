@@ -3,7 +3,7 @@
  * Plugin Name: Ideal Geotech Chatbot
  * Description: Chatbot Jamie – Ideal Geotech flow tích hợp Gravity Forms.
  * Version: 1.0
- * Author: Your Name
+ * Author: Tuantaimta
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -18,7 +18,7 @@ add_action('wp_enqueue_scripts', function() {
     wp_localize_script('igc-script', 'igc_vars', [
         'order_page' => site_url('/order-now'),
         'support_email' => 'info@idealcorp.com.au',
-        'gf_form_id' => 3,
+        'gf_form_id' => 31,
         'ajax_url' => admin_url('admin-ajax.php')
     ]);
 });

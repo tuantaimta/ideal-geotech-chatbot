@@ -1,6 +1,7 @@
 #igc-chatbot {
   width: 350px;
-  height: 500px;
+  max-height: 500px;
+  height: fit-content;
   position: fixed;
   bottom: 20px;
   right: 20px;

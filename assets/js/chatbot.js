@@ -1,6 +1,11 @@
 jQuery(document).ready(function($) {
-    const body = $("#igc-chatbot .igc-body");
 
+    const chatbot = $("#igc-chatbot");
+    const body = $("#igc-chatbot .igc-body");
+    const toggle = $("#igc-toggle");
+    const closeBtn = $("#igc-close");
+
+    // ==== 1️⃣ Render các màn hình ====
     function renderWelcome() {
         body.html(`
             <p>Hey there 👋 I’m Jamie, your friendly guide at Ideal Geotech! 💡<br>
@@ -15,7 +20,7 @@ jQuery(document).ready(function($) {
         body.html(`
             <p>Awesome 😎 Which service do you need help with today?</p>
             <button class="igc-btn" data-service="site">Site / Lot Classification</button>
-            <button class="igc-btn" data-service="custom">Customisable Site/ Lot Classification</button>
+            <button class="igc-btn" data-service="custom">Customisable Site / Lot Classification</button>
             <button class="igc-btn" data-service="footing">Footing Inspection</button>
             <button class="igc-btn" data-service="env">Environmental Services</button>
             <button class="igc-btn" data-service="geo">Geotechnical Services</button>
@@ -32,24 +37,54 @@ jQuery(document).ready(function($) {
 
     function renderNotSureForm() {
         body.html(`<div id="gf-form-wrap">Loading form...</div>`);
-        $.post(igc_vars.ajax_url, { action: 'igc_load_form', form_id: igc_vars.gf_form_id }, function(res){
+        $.post(igc_vars.ajax_url, { action: 'igc_load_form', form_id: igc_vars.gf_form_id }, function(res) {
             $("#gf-form-wrap").html(res);
         });
     }
 
     function renderSupport() {
         body.html(`
-            <p>Need more help later? You can always email us at <a href="mailto:${igc_vars.support_email}">${igc_vars.support_email}</a> 📧.<br>We’ll be here when you need us! 💙</p>
+            <p>Need more help later? You can always email us at 
+                <a href="mailto:${igc_vars.support_email}">${igc_vars.support_email}</a> 📧.<br>
+                We’ll be here when you need us! 💙
+            </p>
         `);
+
+        chatbot.attr("data-mode", "support");
+
+        // Tự động đóng popup sau 3s nếu user không bấm gì
+        const autoClose = setTimeout(() => {
+            if (chatbot.attr("data-mode") === "support") closeChatPopup();
+        }, 3000);
+
+        // Nếu user click close lần nữa => đóng ngay
+        closeBtn.off("click").on("click", function() {
+            clearTimeout(autoClose);
+            closeChatPopup();
+        });
     }
 
-    $("#igc-toggle").on("click", () => $("#igc-chatbot").toggle());
-    $("#igc-close").on("click", renderSupport);
+    // ==== 2️⃣ Hành vi toggle chat ====
+    function closeChatPopup() {
+        chatbot.hide();
+        toggle.show();
+        chatbot.removeAttr("data-mode");
+    }
 
-    renderWelcome();
+    toggle.on("click", function() {
+        chatbot.toggle();
+        toggle.toggle();
+    });
 
+    // ==== 3️⃣ Sự kiện Close ====
+    closeBtn.on("click", renderSupport);
+
+    // ==== 4️⃣ Các sự kiện điều hướng ====
     body.on("click", "#igc-guide", renderServices);
-    body.on("click", "#igc-explore", () => window.location.href = igc_vars.order_page);
+
+    body.on("click", "#igc-explore", function() {
+        window.location.href = igc_vars.order_page;
+    });
 
     body.on("click", "[data-service]", function() {
         let service = $(this).data("service");
@@ -57,4 +92,7 @@ jQuery(document).ready(function($) {
     });
 
     body.on("click", "#igc-not-sure", renderNotSureForm);
+
+    // ==== 5️⃣ Khởi động ====
+    renderWelcome();
 });

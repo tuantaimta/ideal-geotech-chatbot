@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="c282e6d0-093b-45c3-9cd2-3109a50154ad" name="ftp.idealgeotech.com.au" url="http://172.105.162.7">
+        <fileTransfer accessType="FTPS" host="172.105.162.7" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
