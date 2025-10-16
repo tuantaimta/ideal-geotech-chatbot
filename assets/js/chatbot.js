@@ -1,11 +1,12 @@
-jQuery(document).ready(function($) {
-
+jQuery(document).ready(function ($) {
     const chatbot = $("#igc-chatbot");
     const body = $("#igc-chatbot .igc-body");
-    const toggle = $("#igc-toggle");
-    const closeBtn = $("#igc-close");
+    const backBtn = $("#igc-back");
 
-    // ==== 1️⃣ Render các màn hình ====
+    // Lưu lịch sử màn hình để xử lý nút back
+    const chatHistory = [];
+
+    // === RENDER FUNCTIONS ===
     function renderWelcome() {
         body.html(`
             <p>Hey there 👋 I’m Jamie, your friendly guide at Ideal Geotech! 💡<br>
@@ -14,85 +15,99 @@ jQuery(document).ready(function($) {
             <button class="igc-btn" id="igc-guide">Yes, guide me!</button>
             <button class="igc-btn" id="igc-explore" style="background:#ddd;color:#000;">I’ll explore myself</button>
         `);
+        chatHistory.push(renderWelcome);
     }
 
     function renderServices() {
         body.html(`
             <p>Awesome 😎 Which service do you need help with today?</p>
-            <button class="igc-btn" data-service="site">Site / Lot Classification</button>
-            <button class="igc-btn" data-service="custom">Customisable Site / Lot Classification</button>
-            <button class="igc-btn" data-service="footing">Footing Inspection</button>
-            <button class="igc-btn" data-service="env">Environmental Services</button>
-            <button class="igc-btn" data-service="geo">Geotechnical Services</button>
+            <button class="igc-btn" data-service="order-a-site-classification-new">Site / Lot Classification</button>
+            <button class="igc-btn" data-service="custom-lot-classification-geotech-reports">Customisable Site / Lot Classification</button>
+            <button class="igc-btn" data-service="footing-inspection-order-form">Footing Inspection</button>
+            <button class="igc-btn" data-service="order-environmental-custom">Environmental Services</button>
+            <button class="igc-btn" data-service="geotechnical-services-new">Geotechnical Services</button>
             <button class="igc-btn" id="igc-not-sure" style="background:#ddd;color:#000;">Not sure 🤔</button>
         `);
+        chatHistory.push(renderServices);
     }
 
-    function renderServiceLink(service) {
+    function renderServiceLink(service, label) {
         body.html(`
             <p>Great choice ✅ Click below to jump straight to the order form for that service.</p>
-            <a class="igc-btn" href="${igc_vars.order_page}#${service}" target="_blank">Go to ${service}</a>
+            <a class="igc-btn igc-go-link" href="${igc_vars.order_page}/${service}" target="_blank">${label}</a>
         `);
+        chatHistory.push(() => renderServiceLink(service, label));
     }
 
     function renderNotSureForm() {
         body.html(`<div id="gf-form-wrap">Loading form...</div>`);
-        $.post(igc_vars.ajax_url, { action: 'igc_load_form', form_id: igc_vars.gf_form_id }, function(res) {
+        $.post(igc_vars.ajax_url, { action: 'igc_load_form', form_id: igc_vars.gf_form_id }, function (res) {
             $("#gf-form-wrap").html(res);
         });
+        chatHistory.push(renderNotSureForm);
     }
 
     function renderSupport() {
         body.html(`
             <p>Need more help later? You can always email us at 
-                <a href="mailto:${igc_vars.support_email}">${igc_vars.support_email}</a> 📧.<br>
-                We’ll be here when you need us! 💙
-            </p>
+            <a href="mailto:${igc_vars.support_email}">${igc_vars.support_email}</a> 📧.<br>
+            We’ll be here when you need us! 💙</p>
         `);
-
-        chatbot.attr("data-mode", "support");
-
-        // Tự động đóng popup sau 3s nếu user không bấm gì
-        const autoClose = setTimeout(() => {
-            if (chatbot.attr("data-mode") === "support") closeChatPopup();
-        }, 3000);
-
-        // Nếu user click close lần nữa => đóng ngay
-        closeBtn.off("click").on("click", function() {
-            clearTimeout(autoClose);
-            closeChatPopup();
-        });
+        chatHistory.push(renderSupport);
     }
 
-    // ==== 2️⃣ Hành vi toggle chat ====
-    function closeChatPopup() {
-        chatbot.hide();
-        toggle.show();
-        chatbot.removeAttr("data-mode");
-    }
+    // === EVENT HANDLERS ===
+    $("#igc-toggle").on("click", () => chatbot.toggle());
 
-    toggle.on("click", function() {
-        chatbot.toggle();
-        toggle.toggle();
+    // Nút Back (góc trên phải)
+    backBtn.on("click", function () {
+        if (chatHistory.length > 1) {
+            chatHistory.pop();
+            const prev = chatHistory.pop();
+            if (prev) prev();
+        } else {
+            chatbot.hide();
+        }
     });
 
-    // ==== 3️⃣ Sự kiện Close ====
-    closeBtn.on("click", renderSupport);
+    // Flow chính
+    renderWelcome();
 
-    // ==== 4️⃣ Các sự kiện điều hướng ====
+    // 1️⃣ Bắt đầu hướng dẫn
     body.on("click", "#igc-guide", renderServices);
 
-    body.on("click", "#igc-explore", function() {
-        window.location.href = igc_vars.order_page;
+    // 2️⃣ Tự khám phá → Chuyển sang trang Order
+        body.on("click", "#igc-explore", function () {
+        renderSupport();
+    });
+    // 3️⃣ Người dùng chọn service cụ thể
+    body.on("click", "[data-service]", function () {
+        const service = $(this).data("service");
+        const label = $(this).text();
+        renderServiceLink(service, label);
     });
 
-    body.on("click", "[data-service]", function() {
-        let service = $(this).data("service");
-        renderServiceLink(service);
-    });
-
+    // 4️⃣ Người dùng chọn “Not sure”
     body.on("click", "#igc-not-sure", renderNotSureForm);
 
-    // ==== 5️⃣ Khởi động ====
-    renderWelcome();
+    // 5️⃣ Sau khi click vào link dịch vụ → render support
+    body.on("click", ".igc-go-link", function () {
+        setTimeout(() => renderSupport(), 500);
+    });
+    
+});
+
+jQuery(document).ready(function ($) {
+ const tooltip = $('.igc-tooltip');
+  const toggleBtn = $('#igc-toggle');
+
+  // Ẩn tooltip khi bấm nút close
+  $('.igc-tooltip .igc-close').on('click', function () {
+    tooltip.fadeOut(300);
+  });
+
+  // Ẩn tooltip khi bấm nút chat toggle
+  toggleBtn.on('click', function () {
+    tooltip.fadeOut(300);
+  });
 });

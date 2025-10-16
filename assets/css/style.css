@@ -1,6 +1,6 @@
 #igc-chatbot {
   width: 350px;
-  max-height: 500px;
+  max-height: 600px;
   height: fit-content;
   position: fixed;
   bottom: 20px;
@@ -42,7 +42,7 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: #f60;
+  background: transparent;
   border: none;
   border-radius: 50%;
   width: 55px;
@@ -54,13 +54,247 @@
 }
 
 .igc-btn {
-  display: block;
-  padding: 10px;
+     display: block;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #5B6372;
+    cursor: pointer;
+    text-align: center;
+    border: solid 1px #B7B7B7;
+    width: 100%;
+}
+.igc-btn.igc-go-link {
   margin: 5px 0;
   border: none;
   border-radius: 8px;
   background: #f60;
   color: #fff;
-  cursor: pointer;
-  text-align: center;
 }
+.igc-btn-back {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  background: #f1f1f1;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+.igc-btn-back:hover {
+  background: #e5e5e5;
+}
+#igc-chatbot .igc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  position: relative;
+}
+
+#igc-chatbot .igc-avatar {
+  background-color: #ff6600;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 15px;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+#igc-chatbot .igc-header-text {
+  flex-grow: 1;
+}
+
+#igc-chatbot .igc-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #111;
+}
+
+#igc-chatbot .igc-subtitle {
+  font-size: 12px;
+  color: #888;
+  margin-top: 2px;
+}
+
+#igc-chatbot .igc-back {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ff6600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+  width: 24px;
+}
+
+#igc-chatbot .igc-back:hover {
+  opacity: 0.7;
+}
+/* Form style*/
+
+/* === Chatbot Form Styling === */
+.igc-body #gf-form-wrap {
+  background: #fff;
+  border-radius: 12px;
+  /*box-shadow: 0 4px 20px rgba(0,0,0,0.08);*/
+  /*padding: 20px;*/
+  font-family: 'Inter', 'Roboto', sans-serif;
+  color: #333;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  max-height: 453px;
+}
+
+/* Tiêu đề form ẩn đi để dùng header tùy chỉnh */
+#gform_wrapper_31 .gform_heading {
+  display: none;
+}
+#gform_wrapper_31 .gform-field-label {
+    display: none;
+}
+/* Các input và textarea */
+#gform_wrapper_31 input[type="text"],
+#gform_wrapper_31 input[type="email"],
+#gform_wrapper_31 input[type="tel"],
+#gform_wrapper_31 textarea {
+  width: 100%;
+  padding: 12px 14px!important;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+#gform_wrapper_31 input:focus,
+#gform_wrapper_31 textarea:focus {
+  border-color: #ff6600;
+  box-shadow: 0 0 0 2px rgba(255, 102, 0, 0.1);
+  outline: none;
+}
+
+/* Khoảng cách giữa các field */
+#gform_wrapper_31 .gfield {
+  margin-bottom: 12px;
+}
+
+/* Nút Submit */
+#gform_submit_button_31 {
+  background: #ff6600;
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  padding: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+#gform_submit_button_31:hover {
+  background: #e85b00;
+}
+
+/* hCaptcha */
+#gform_wrapper_31 .h-captcha {
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* Footer text */
+.igc-form-footer {
+  font-size: 13px;
+  text-align: center;
+  color: #666;
+  margin-top: 10px;
+}
+
+.igc-form-footer a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.igc-form-footer a:hover {
+  text-decoration: underline;
+}
+/*Btn chat*/
+#igc-chat-toggle-wrapper {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2;
+}
+
+/* Tooltip box */
+.igc-tooltip {
+    width: 195px;
+  position: absolute;
+  bottom: 70px; /* nằm phía trên nút */
+  right: 0;
+  background: #fff;
+  color: #000;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  padding: 10px 14px;
+  font-family: sans-serif;
+  max-width: 220px;
+  transition: all 0.3s ease;
+  z-index:1;
+}
+
+.igc-tooltip .igc-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0;
+}
+
+.igc-tooltip .igc-subtitle {
+  font-size: 12px;
+  margin: 4px 0 0;
+  color: #555;
+}
+
+.igc-tooltip .igc-close {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 14px;
+  color: #888;
+  cursor: pointer;
+}
+
+/* Chat button */
+#igc-toggle {
+  width: 60px;
+  height: 60px;
+  /*border-radius: 50%;*/
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  /*box-shadow: 0 3px 8px rgba(0,0,0,0.3);*/
+}
+
+#igc-toggle img {
+  width: 30px;
+  height: 30px;
+}
+
