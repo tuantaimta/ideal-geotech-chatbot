@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Ideal Geotech Chatbot
- * Description: Chatbot Jamie – Ideal Geotech flow tích hợp Gravity Forms.
+ * Description: Chatbot Ideal Assistant flow tích hợp Gravity Forms.
  * Version: 1.0
  * Author: Tuantaimta
  */
@@ -30,7 +30,7 @@ add_action('wp_footer', function() {
         <div class="igc-header">
           <div class="igc-avatar">J</div>
           <div class="igc-header-text">
-            <div class="igc-name">Jamie – Ideal Geotech</div>
+            <div class="igc-name">Ideal Assistant</div>
             <div class="igc-subtitle">Your friendly guide</div>
           </div>
           <button class="igc-back" id="igc-back">
@@ -48,7 +48,7 @@ add_action('wp_footer', function() {
     <div id="igc-chat-toggle-wrapper">
       <div class="igc-tooltip">
         <p class="igc-title">Got a Question?</p>
-        <p class="igc-subtitle">Ask the Jamie Virtual Assistant</p>
+        <p class="igc-subtitle">Ask the Ideal Assistant</p>
         <span class="igc-close">&times;</span>
       </div>
     

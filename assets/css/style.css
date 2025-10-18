@@ -66,6 +66,18 @@
     border: solid 1px #B7B7B7;
     width: 100%;
 }
+.igc-btn:hover {
+    border: solid 1px #FF6600;
+}
+#igc-guide { 
+        background: #ff6600;
+        color: white;
+}
+#igc-explore {
+    background: #FFFFFF!important;
+    border-color:#B7B7B7;
+    color:#5B6372!important;
+}
 .igc-btn.igc-go-link {
   margin: 5px 0;
   border: none;

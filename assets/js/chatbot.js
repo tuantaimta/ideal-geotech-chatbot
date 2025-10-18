@@ -9,7 +9,7 @@ jQuery(document).ready(function ($) {
     // === RENDER FUNCTIONS ===
     function renderWelcome() {
         body.html(`
-            <p>Hey there 👋 I’m Jamie, your friendly guide at Ideal Geotech! 💡<br>
+            <p>Hey there 👋 I’m Ideal Assistant, your friendly guide at Ideal Geotech! 💡<br>
             Looking to place an order? I can point you straight to the right service and if you’re not sure, just leave me your details and our team will give you a call.<br>
             Shall we get started? 🚀</p>
             <button class="igc-btn" id="igc-guide">Yes, guide me!</button>
@@ -32,12 +32,46 @@ jQuery(document).ready(function ($) {
     }
 
     function renderServiceLink(service, label) {
+        // Danh sách mô tả chi tiết cho từng service
+        const descriptions = {
+            "order-a-site-classification-new": `
+            Standard testing for residential homes – includes 2 boreholes drilled up to 3m or until rock is reached. 
+            Ideal for getting your site ready for construction approvals.
+        `,
+            "custom-lot-classification-geotech-reports": `
+            Need something more detailed? You can customise your report with multiple boreholes and testing up to 6 meters, 
+            plus extra tests if required.
+        `,
+            "footing-inspection-order-form": `
+            Order a footing inspection with short lead times – perfect for urgent jobs where you need fast site checks 
+            before moving ahead with construction.
+        `,
+            "order-environmental-custom": `
+            We offer a range of environmental tests. Get a tailored quote to meet your project’s specific 
+            environmental requirements.
+        `,
+            "geotechnical-services-new": `
+            Looking for more advanced soil or ground testing? Request a quote for one of our specialised 
+            geotechnical services.
+        `,
+        };
+
+        // Lấy mô tả tương ứng với service
+        const description = descriptions[service] || "Detailed service information is coming soon.";
+
+        // Render nội dung ra khung chat
         body.html(`
+        <div class="igc-service-info">
+            <p>${description}</p>
             <p>Great choice ✅ Click below to jump straight to the order form for that service.</p>
             <a class="igc-btn igc-go-link" href="${igc_vars.order_page}/${service}" target="_blank">${label}</a>
-        `);
+        </div>
+    `);
+
+        // Lưu vào lịch sử để nút Back hoạt động
         chatHistory.push(() => renderServiceLink(service, label));
     }
+
 
     function renderNotSureForm() {
         body.html(`<div id="gf-form-wrap">Loading form...</div>`);
